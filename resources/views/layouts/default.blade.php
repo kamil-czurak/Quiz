@@ -5,7 +5,8 @@
   </head>
 
   <body>
-		<a href='{{url("/")}}' class='btn_home'><img src="{{ asset('img/home.png') }}"></a>
+  		@include('includes.header')
+		
     	@yield('content')
   </body>
 </html> 
