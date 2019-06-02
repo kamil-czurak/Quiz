@@ -20,10 +20,11 @@
 		@isset($name)
 			@if($name=='edit')
 				@include('includes.table')
-			@endif
 
-			@if($name=='create')
+			@elseif($name=='create')
 				@include('includes.create-quiz')
+			@else
+				@include('errors.404')	
 			@endif	
 		@endisset
 	</section>

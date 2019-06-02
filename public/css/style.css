@@ -25,6 +25,26 @@ nav a
 {
 	margin:0 10px;
 }
+.save_btn, .pink_btn, .btn_link
+{
+	background-color: #f04;
+	color:white;
+}
+.save_btn, .pink_btn
+{
+   	padding: 9px 8px 9px 8px;
+   	font-size: 14px;
+   	border:0;
+   	border-radius: 10px;
+}
+.btn_link
+{
+	margin-top:15px;
+   	padding: 18px 16px 18px 16px;
+   	font-size: 20px;
+   	text-decoration: none;
+}
+/**QUIZ_GAMEPLAY**/
 .question
 {
 	width: 700px;
@@ -43,7 +63,7 @@ nav a
 .quiz_title
 {
 	text-align: center;
-	margin-bottom:100px;
+	margin-bottom:50px;
 	font-size: 50px;
 }
 .question h2
@@ -62,13 +82,16 @@ nav a
 .answer
 {
 	width: 45%;
-	height: 45%;
+	min-height: 45%;
+	margin-top:15px;
 	padding-left: 10px;
 	color:white;
 	font-weight: bold;
 	font-size: 24px;
 	display: flex;
 	align-items: center;
+	cursor: pointer;
+	word-break: break-all;
 }
 .answer:nth-child(1)
 {
@@ -99,15 +122,7 @@ nav a
 	color:green;
 	font-size: 50px;				
 }
-.btn_link
-{
-	margin-top:15px;
-	background-color: #f04;
-	color:white;
-   	padding: 18px 16px 18px 16px;
-   	font-size: 20px;
-   	text-decoration: none;
-}
+/**HOME_PRESENTATION**/
 .quizes_choose
 {
 	min-height: 500px;
@@ -165,6 +180,7 @@ tr:nth-child(odd)
 {
 	background-color: #F8F6FF;
 }
+/**ACCOUNT_FUNCTIONS**/
 .table_img
 {
 	width: 30px;
@@ -203,6 +219,7 @@ tr:nth-child(odd)
 	box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
     -moz-box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
 }
+/**NEW_QUIZ_FORM**/
 #create_quiz
 {
 	width:800px;
@@ -223,11 +240,12 @@ tr:nth-child(odd)
 .form_quiz_question
 {
 	margin:20px 0;
+	padding: 10px;
 	text-align: center;
+	box-shadow: 0px 1px 10px 0px rgba(0,0,0,0.47);
 }
 .form_answers
 {
-	border :2px dashed orange;
 	width: 100%;
 	display: flex;
 	flex-direction: row;
@@ -237,8 +255,20 @@ tr:nth-child(odd)
 .form_answer_box
 {
 	width: 45%;
-	border:1px dotted green;
 }
+input[type=text]
+{
+	width:60%;
+	padding: 10px;
+	font-size: 18px;
+	border-radius: 0.4rem;
+	border:1px solid black;
+}
+input[type=submit]
+{
+	margin-top:20px;
+}
+/**UPDATE_QUIZ_CONTENT**/
 .edit_quiz_container
 {
 	width: 700px;
@@ -290,25 +320,30 @@ tr:nth-child(odd)
 	margin-bottom: 10px;
 	width: 45%;
 	padding: 5px;
-	height: 30px;
+	min-height: 30px;
 	display: flex;
 	align-items: center;
 	border:1px solid grey;
 	border-radius:10px;
 	cursor: pointer;
 	position: relative;
+	word-break: break-all;
 }
 .single_edit_answer input
 {
 	position: absolute;
 	right: 10px;
 }
-.save_btn
+#succesful_change
 {
-	background-color: #f04;
+	position: absolute;
+	top:50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	padding: 10px;
+	background-color: green;
+	z-index: 100;
+	border-radius: 20px;
 	color:white;
-   	padding: 9px 8px 9px 8px;
-   	font-size: 14px;
-   	border:0;
-   	border-radius: 10px;
+	display: none;
 }

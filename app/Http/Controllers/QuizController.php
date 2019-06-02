@@ -79,4 +79,38 @@ class QuizController extends Controller
 
         Answer::where('id','=',$_POST['correct'])->update(['correct' => '1']);
     }
+
+    public function create(Request $request)
+    {
+        $quiz = new Quiz;
+        $quiz->name = $request->quiz_name;
+        $quiz->id_user = Auth::user()->id;
+        $quiz->save();
+
+        $questions = array();
+        foreach ($request->question as $key => $value) {
+            $question = new Question;
+            $question->name = $value;
+            $question->id_quiz = $quiz->id;
+            $question->save();
+            $questions[$key] = $question->id;
+        }
+
+        foreach($request->answer as $key => $value)
+        {
+
+            $correct = $request->correct[$key];
+            foreach ($value as $index => $name) {
+                $answer = new Answer;
+                $answer->name = $name;
+                $answer->id_question = $questions[$key];
+                $answer->correct = 0;
+                if($index==$correct)
+                    $answer->correct = 1;
+                $answer->save();
+            }            
+        }
+        
+        return redirect('/account/edit/'.$quiz->id.'/'.str_slug($quiz->name, "-"));
+    }
 }

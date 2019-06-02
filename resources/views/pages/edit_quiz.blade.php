@@ -22,6 +22,9 @@
 					</section>
 				@endforeach	
 			</section>
+			<div id='succesful_change'>
+				<h2>Pomyślnie zapisano dane</h2>
+			</div>	
 		</section>
 	</section>
 @endsection

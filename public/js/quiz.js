@@ -36,29 +36,32 @@ $(document).ready(function(){
 
 	$('.delete_quiz').click(function(){
 		var id_quiz = $(this).parent().parent().data('id');
-
-		$.ajaxSetup({
+		if(confirm('Czy na pewno chcesz usunąć quiz?'))
+		{
+			$.ajaxSetup({
 			headers: {
 				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 			}
-		});
-		$.ajax({
-			type:'POST',
-			url:'/quiz-delete',
-			data:{id_quiz:id_quiz},
-			success:function(data){
-				if(data==1)
-					$('[data-id="'+id_quiz+'"]').fadeOut();
-				else
-					alert('false');
-			}
-		});	
+			});
+			$.ajax({
+				type:'POST',
+				url:'/quiz-delete',
+				data:{id_quiz:id_quiz},
+				success:function(data){
+					if(data==1)
+						$('[data-id="'+id_quiz+'"]').fadeOut();
+					else
+						alert('false');
+				}
+			});	
+		}
+		
 	})
 
 	$('#add_question').click(function(){
 		var i = $('.form_quiz_question').length;
 		var nb = i+1;
-		$(this).before("<div class='form_quiz_question'><h3>Pytanie #"+nb+"</h3><input type='text' name='question["+i+"][]' placeholder='Quiz question' required><div class='form_answers'><div class='form_answer_box'><h5>ODP A</h5><input type='text' name='answer["+i+"][]' required><input type='radio' name='correct["+i+"][]' value='1'required></div><div class='form_answer_box'><h5>ODP B</h5><input type='text' name='answer["+i+"][]' required><input type='radio' name='correct["+i+"][]' value='2'></div><div class='form_answer_box'><h5>ODP C</h5><input type='text' name='answer["+i+"][]' required><input type='radio' name='correct["+i+"][]' value='3'></div><div class='form_answer_box'><h5>ODP D</h5><input type='text' name='answer["+i+"][]' required><input type='radio' name='correct["+i+"][]' value='4'></div></div></div>");
+		$(this).before("<div class='form_quiz_question'><h3>Pytanie #"+nb+"</h3><input type='text' name='question["+i+"]' placeholder='Quiz question' required><div class='form_answers'><div class='form_answer_box'><h5>ODP A</h5><input type='text' name='answer["+i+"][]' required><input type='radio' name='correct["+i+"]' value='0'required></div><div class='form_answer_box'><h5>ODP B</h5><input type='text' name='answer["+i+"][]' required><input type='radio' name='correct["+i+"]' value='1'></div><div class='form_answer_box'><h5>ODP C</h5><input type='text' name='answer["+i+"][]' required><input type='radio' name='correct["+i+"]' value='2'></div><div class='form_answer_box'><h5>ODP D</h5><input type='text' name='answer["+i+"][]' required><input type='radio' name='correct["+i+"]' value='3'></div></div></div>");
 		return false;
 	})
 	$('input[type=hidden]').each(function(){
@@ -90,7 +93,7 @@ $(document).ready(function(){
 			url:'/quiz-update',
 			data:{id_quest:id_quest, quest_name:quest_name, answers:answers, correct:correct},
 			success:function(data){
-				
+				$('#succesful_change').fadeIn().delay(1300).fadeOut();
 			},
 			error:function(data)
 			{
