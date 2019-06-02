@@ -17,6 +17,7 @@ class CreateQuizesTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->integer('times_played');
+            $table->integer('id_user');
             $table->timestamps();
         });
     }

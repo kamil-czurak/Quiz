@@ -6,7 +6,8 @@
 
   <body>
   		@include('includes.header')
-		
-    	@yield('content')
+		<div id='container'>
+    		@yield('content')
+    	</div>	
   </body>
 </html> 

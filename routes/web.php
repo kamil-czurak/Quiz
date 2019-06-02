@@ -26,13 +26,25 @@ Route::get('/logout',function(){
 	return redirect('/');
 });
 
+Route::post('/create-quiz',function(){
+	return $_POST;
+});
+
 Route::get('/account', function(){
 	return view('pages.account');
 });
 
-Route::get('/{id?}/{name?}','QuizController@generateQuiz');
+Route::get('/account/{name?}', 'AccountController@generateFunction');
+
+Route::get('/account/edit/{id?}/{name?}', 'QuizController@generateQuiz')->name('pages.edit_quiz');
+
+Route::get('/{id?}/{name?}','QuizController@generateQuiz')->name('pages.quiz');
 
 Route::post('/quiz-summary','QuizController@generateSummary');
+
+Route::post('/quiz-delete','QuizController@delete');
+
+Route::post('/quiz-update','QuizController@update');
 
 Auth::routes();
 

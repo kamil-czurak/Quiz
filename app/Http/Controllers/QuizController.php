@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Quiz;
 use App\Question;
 use App\Answer;
+use Auth;
+use Cookie;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
 class QuizController extends Controller
@@ -12,8 +15,14 @@ class QuizController extends Controller
 
     public function generateQuiz($id)
     {
-    	$name = Quiz::findOrFail($id);
-    	Quiz::where('id',$id)->increment('times_played',1);
+        if(Cookie::get($id)==false)
+        {
+            Cookie::queue($id,'quiz_played',3600);
+            Quiz::where('id',$id)->increment('times_played',1);
+        }
+
+        $route = Route::currentRouteName();
+    	$name = Quiz::findOrFail($id);        
 
     	$questions = Question::where('id_quiz','=',$id)->get();
 		
@@ -21,7 +30,7 @@ class QuizController extends Controller
 	    foreach($questions as $question) {
 	       	array_push($answers,Answer::where('id_question','=',$question->id)->get()->toArray());
 	    }   
-    	return view('pages.quiz',['name' => $name, 'id' => $id, 'questions' => $questions, 'answers' => $answers]);
+    	return view($route,['name' => $name, 'id' => $id, 'questions' => $questions, 'answers' => $answers]);
     }
 
     public function generateSummary(Request $request)
@@ -43,5 +52,31 @@ class QuizController extends Controller
     	$newest = Quiz::orderBy('created_at','ASC')->limit(30)->get();
 
     	return view('pages.index',['popular' => $popular, 'newest' => $newest, 'data' => 'test']);
+    }
+
+    public function delete(Request $request)
+    {
+        $id_quiz = $request->all()['id_quiz'];
+        $id_user = Auth::user()->id;
+
+        $quiz = Quiz::where([
+            ['id','=',$id_quiz],
+            ['id_user','=',$id_user]
+        ])->delete();
+
+        return $quiz;    
+    }
+
+    public function update(Request $request)
+    {
+        
+        Question::where('id','=',$_POST['id_quest'])->update(['name' => $_POST['quest_name']]);
+        
+        foreach ($_POST['answers'] as $key => $value) {
+            if($value!='')
+                Answer::where('id','=',$key)->update(['correct' => '0', 'name' => $value]);
+        }
+
+        Answer::where('id','=',$_POST['correct'])->update(['correct' => '1']);
     }
 }
